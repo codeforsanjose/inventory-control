@@ -5,6 +5,8 @@ layer that sits on the inside of the inventory-control system.
 
 import MySQLdb
 
+from inventory_control.database import components
+
 
 class StorageEngine(object):
     """
@@ -20,3 +22,30 @@ class StorageEngine(object):
                                   passwd=self.config['password'],
                                   db=self.config['db'])
         self.cursor = self.db.cursor()
+
+    def _create_tables(self):
+        """
+        Create all files
+        :return:
+        """
+        self.cursor.execute(components.CREATE_SQL)
+        self.cursor.close()
+        self.db.commit()
+        self.cursor = self.db.cursor()
+
+    def get_components(self, component_type):
+        """
+        Get all components of a certain type
+        :param component_type:
+        :return:
+        """
+
+    def _drop_tables(self):
+        """
+        Dump all the tables
+        :return:
+        """
+        self.cursor.execute(components.DROP_SQL)
+        self.cursor.close()
+        self.db.commit()
+        self.cursor= self.db.cursor()
