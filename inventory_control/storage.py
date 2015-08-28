@@ -97,7 +97,36 @@ class StorageEngine(object):
         :param id: The Primary Key ID for the component
         :return:
         """
-        raise NotImplementedError
+        raise NotImplementedError()
+
+    def add_project(self, project_number):
+        """
+        Add a computer project to the DB
+
+        :param project_number: An external identifier. NOT the DB identifier.
+        :return:
+        """
+        raise NotImplementedError()
+
+    def delete_project(self, project_number):
+        """
+        Delete a project from the DB
+
+        :param project_number: External project identifier.
+        :return:
+        """
+        raise NotImplementedError()
+
+    def add_component_to_project(self, project_number, serial_number):
+        """
+        Given a project number and a serial number, add that component
+        with that serial number to that project.
+
+        :param project_number:
+        :param serial_number:
+        :return:
+        """
+        raise NotImplementedError()
 
     def _drop_tables(self):
         """
