@@ -23,7 +23,7 @@ Tech Stack:
 Python 2.7
 Flask(framework)
 MySQL
-Trello (project managment
+
 
 Project Status:
 ==============
@@ -33,4 +33,4 @@ Project Status:
 Contact Info:
 =============
 
-  ford.jeremy510 at gmail
+ford.jeremy510 at gmail
