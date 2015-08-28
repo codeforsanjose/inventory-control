@@ -74,6 +74,31 @@ class StorageEngine(object):
             return None
         return {'ID': component_type[0], 'type': component_type[1]}
 
+
+    def add_component(self, sku, type_name, status, serial_number):
+        """
+        Add a new component to the system.
+
+        :param sku: A SKU, a unique product identifier
+        :param type_name: A pre-existing component_type
+        :param status: Status for the component? Who knows.
+        :param serial_number: A serial number for the component if possible
+        :return:
+        """
+        raise NotImplementedError()
+
+    def delete_component(self, serial_number=None, id=None):
+        """
+        Delete a component from the system. This should require
+        you to know either the serial number for the component,
+        or the DB ID.
+
+        :param serial_number: The serial number of the component
+        :param id: The Primary Key ID for the component
+        :return:
+        """
+        raise NotImplementedError
+
     def _drop_tables(self):
         """
         Dump all the tables
