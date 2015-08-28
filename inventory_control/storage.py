@@ -5,7 +5,7 @@ layer that sits on the inside of the inventory-control system.
 
 import MySQLdb
 
-from inventory_control.database import components
+from inventory_control.database import sql
 
 
 class StorageEngine(object):
@@ -28,7 +28,7 @@ class StorageEngine(object):
         Create all files
         :return:
         """
-        self.cursor.execute(components.CREATE_SQL)
+        self.cursor.execute(sql.CREATE_SQL)
         self.cursor.close()
         self.db.commit()
         self.cursor = self.db.cursor()
@@ -45,7 +45,7 @@ class StorageEngine(object):
         Dump all the tables
         :return:
         """
-        self.cursor.execute(components.DROP_SQL)
+        self.cursor.execute(sql.DROP_SQL)
         self.cursor.close()
         self.db.commit()
         self.cursor= self.db.cursor()
