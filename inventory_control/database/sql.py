@@ -11,6 +11,7 @@ CREATE TABLE component_type (
 
 CREATE TABLE components (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    serial_number VARCHAR(255),
     sku TEXT,
     type INT,
     status INT,
@@ -19,6 +20,7 @@ CREATE TABLE components (
 
 CREATE TABLE projects (
     id INT PRIMARY KEY AUTO_INCREMENT,
+    product_number INT,
     motherboard INT,
     power_supply INT,
     cpu INT,
