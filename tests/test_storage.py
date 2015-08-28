@@ -12,8 +12,13 @@ def test_integration_storage():
     assert result == 1
 
     try:
+        #engine._drop_tables()
         engine._create_tables()
         res = engine.cursor.execute("SELECT * FROM components")
         assert res == 0
+        res = engine.cursor.execute("SELECT * FROM projects")
+        assert res == 0
+    except Exception as ex:
+        print(ex)
     finally:
         engine._drop_tables()
