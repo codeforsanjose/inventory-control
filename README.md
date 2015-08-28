@@ -3,6 +3,12 @@ Purpose
 
 This project involves building a program that will assist World Computer Exchange in tracking donors and manage inventory for their computer donation projects.
 
+Project Team Members
+=====================
+Jeremy Ford
+Matthew Norman
+
+
 Requirements:
 =============
 
@@ -14,8 +20,10 @@ Requirements:
 
 Tech Stack:
 ===========
-
- * TBD, but leaning towards MySQL, Flask, python2.7
+Python 2.7
+Flask(framework)
+MySQL
+Trello (project managment
 
 Project Status:
 ==============
