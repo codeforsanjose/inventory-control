@@ -1,0 +1,5 @@
+mysql==0.0.1
+MySQL-python==1.2.5
+py==1.4.30
+pytest==2.7.2
+wheel==0.24.0
