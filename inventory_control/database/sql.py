@@ -12,7 +12,7 @@ CREATE TABLE component_type (
 CREATE TABLE components (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     serial_number VARCHAR(255),
-    sku TEXT,
+    sku VARCHAR(255),
     type INTEGER,
     status INTEGER,
     FOREIGN KEY (type) REFERENCES component_type(id)
