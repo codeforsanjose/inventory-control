@@ -2,31 +2,32 @@
 So this is where all the SQL commands live
 """
 
-CREATE_SQL = """
+CREATE_SQL = ("""
 CREATE TABLE component_type (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     type VARCHAR(255) UNIQUE
 );
-
-
+""",
+"""
 CREATE TABLE components (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     serial_number VARCHAR(255),
     sku TEXT,
-    type INT,
-    status INT,
+    type INTEGER,
+    status INTEGER,
     FOREIGN KEY (type) REFERENCES component_type(id)
 );
-
+""",
+"""
 CREATE TABLE projects (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    product_number INT,
-    motherboard INT,
-    power_supply INT,
-    cpu INT,
-    hard_drive INT,
-    proj_case INT,
-    memory INT,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_number INTEGER,
+    motherboard INTEGER,
+    power_supply INTEGER,
+    cpu INTEGER,
+    hard_drive INTEGER,
+    proj_case INTEGER,
+    memory INTEGER,
     FOREIGN KEY (motherboard) REFERENCES components(id) ON DELETE CASCADE,
     FOREIGN KEY (cpu) REFERENCES components(id) ON DELETE CASCADE,
     FOREIGN KEY (power_supply) REFERENCES components(id) ON DELETE CASCADE,
@@ -34,9 +35,9 @@ CREATE TABLE projects (
     FOREIGN KEY (proj_case) REFERENCES components(id) ON DELETE CASCADE,
     FOREIGN KEY (memory) REFERENCES components(id) ON DELETE CASCADE
 );
-"""
+""")
 
-ADD_COMPONENT_TYPE = """INSERT IGNORE INTO component_type (type) VALUES ('{text}')
+ADD_COMPONENT_TYPE = """INSERT INTO component_type (type) VALUES ('{text}')
 """
 
 GET_COMPONENT_TYPE="""SELECT * FROM component_type WHERE type='{text}'"""
@@ -50,14 +51,15 @@ SELECT * FROM components INNER JOIN component_type
  """
 
 # Project SQL
-ADD_PROJECT = "INSERT INTO projects (product_number) VALUE ('{text}')"
+ADD_PROJECT = "INSERT INTO projects (product_number) VALUES ('{text}')"
 
 DELETE_PROJECT = """
 DELETE FROM projects WHERE product_number='{text}'
 """
 
-DROP_SQL = """
-DROP TABLE projects;
-DROP TABLE components;
-DROP TABLE component_type;
+GET_PROJECT_BY_STATUS = """
 """
+
+DROP_SQL = ("DROP TABLE projects",
+            "DROP TABLE components",
+            "DROP TABLE component_type")

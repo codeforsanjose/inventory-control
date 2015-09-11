@@ -3,7 +3,8 @@ This is the Storage engine. It's how everything should talk to the database
 layer that sits on the inside of the inventory-control system.
 """
 
-import MySQLdb
+#import MySQLdb
+import sqlite3
 
 from inventory_control.database import sql
 
@@ -17,10 +18,7 @@ class StorageEngine(object):
 
     def __init__(self, config):
         self.config = config
-        self.db = MySQLdb.connect(host=self.config['host'],
-                                  user=self.config['user'],
-                                  passwd=self.config['password'],
-                                  db=self.config['db'])
+        self.db = sqlite3.connect('/tmp/inventory.db')
         self.cursor = self.db.cursor()
 
     def _create_tables(self):
@@ -28,10 +26,9 @@ class StorageEngine(object):
         Create all files
         :return:
         """
-        self.cursor.execute(sql.CREATE_SQL)
-        self.cursor.close()
+        for query in sql.CREATE_SQL:
+            self.cursor.execute(query)
         self.db.commit()
-        self.cursor = self.db.cursor()
 
     def get_components(self, component_type):
         """
@@ -141,7 +138,6 @@ class StorageEngine(object):
         Dump all the tables
         :return:
         """
-        self.cursor.execute(sql.DROP_SQL)
-        self.cursor.close()
+        for query in sql.DROP_SQL:
+            self.cursor.execute(query)
         self.db.commit()
-        self.cursor= self.db.cursor()
