@@ -106,7 +106,8 @@ class StorageEngine(object):
         :param project_number: An external identifier. NOT the DB identifier.
         :return:
         """
-        raise NotImplementedError()
+        str = sql.ADD_PROJECT.format(text=project_number)
+        self.cursor.execute(str)
 
     def delete_project(self, project_number):
         """
@@ -115,7 +116,8 @@ class StorageEngine(object):
         :param project_number: External project identifier.
         :return:
         """
-        raise NotImplementedError()
+        str = sql.DELETE_PROJECT.format(text=project_number)
+        self.cursor.execute(str)
 
     def add_component_to_project(self, project_number, serial_number):
         """
@@ -127,6 +129,12 @@ class StorageEngine(object):
         :return:
         """
         raise NotImplementedError()
+
+    def find_project_by_completeness(self):
+        """
+        Search for projects and return them by state of completeness
+        :return:
+        """
 
     def _drop_tables(self):
         """

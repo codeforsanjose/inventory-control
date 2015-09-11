@@ -49,6 +49,12 @@ SELECT * FROM components INNER JOIN component_type
  ON components.type = component_type.id;
  """
 
+# Project SQL
+ADD_PROJECT = "INSERT INTO projects (product_number) VALUE ('{text}')"
+
+DELETE_PROJECT = """
+DELETE FROM projects WHERE product_number='{text}'
+"""
 
 DROP_SQL = """
 DROP TABLE projects;
