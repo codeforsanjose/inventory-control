@@ -50,3 +50,20 @@ def test_integration_component_creation():
         assert result is None
     finally:
         engine._drop_tables()
+
+
+def test_project():
+    """
+    Create a project, delete a project, and possibly
+    rank them in order
+
+    :return:
+    """
+    engine = storage.StorageEngine(config=get_config())
+    project_number = 1001
+    try:
+        engine._create_tables()
+        engine.add_project(project_number=project_number)
+        engine.delete_project(project_number=project_number)
+    finally:
+        engine._drop_tables()
