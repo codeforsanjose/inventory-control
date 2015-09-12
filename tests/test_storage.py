@@ -64,3 +64,22 @@ def test_project():
         engine.delete_project(project_number=project_number)
     finally:
         engine._drop_tables()
+
+
+def test_full_run():
+    """
+    Create components, add them to the system.
+    :return:
+    """
+
+    engine = storage.StorageEngine(config=get_config())
+    try:
+        engine._create_tables()
+        engine.add_component_type(type_name='motherboard')
+        engine.add_component_type(type_name='cpu')
+        engine.add_component_type(type_name='memory')
+        engine.add_component_type(type_name='drive')
+        engine.add_component(sku='123456', type_name='motherboard',
+                             serial_number=14567)
+    finally:
+        engine._drop_tables()
