@@ -72,7 +72,7 @@ class StorageEngine(object):
         return {'ID': component_type[0], 'type': component_type[1]}
 
 
-    def add_component(self, sku, type_name, status, serial_number):
+    def add_component(self, sku, type_name, serial_number, status=None):
         """
         Add a new component to the system.
 
@@ -82,7 +82,9 @@ class StorageEngine(object):
         :param serial_number: A serial number for the component if possible
         :return:
         """
-        raise NotImplementedError()
+        str = sql.ADD_COMPONENT.format(serial_number=serial_number,
+                                       sku=sku, type=type_name)
+        self.cursor.execute(str)
 
     def delete_component(self, serial_number=None, id=None):
         """
