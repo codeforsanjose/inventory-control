@@ -97,6 +97,20 @@ def test_full_run():
                              serial_number='serial13')
         engine.add_project(project_number='project0')
         engine.add_project(project_number='project1')
+        engine.add_component_to_project(project_number='project0',
+                                        serial_number='serial00')
+        engine.add_component_to_project(project_number='project0',
+                                        serial_number='serial01')
+        engine.add_component_to_project(project_number='project0',
+                                        serial_number='serial02')
+        engine.add_component_to_project(project_number='project0',
+                                        serial_number='serial03')
+        engine.add_component_to_project(project_number='project1',
+                                        serial_number='serial10')
+        engine.add_component_to_project(project_number='project1',
+                                        serial_number='serial11')
+        result = engine.find_project_by_completeness()
+        print(result)
     except:
         raise
     finally:
