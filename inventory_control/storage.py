@@ -138,6 +138,8 @@ class StorageEngine(object):
         Search for projects and return them by state of completeness
         :return:
         """
+        result = self.cursor.execute(sql.GET_PROJECT_BY_STATUS)
+        return result.fetchall()
 
     def _drop_tables(self):
         """
