@@ -127,7 +127,11 @@ class StorageEngine(object):
         :param serial_number:
         :return:
         """
-        raise NotImplementedError()
+        query = sql.ADD_COMPONENT_TO_PROJECT.format(
+            project_number=project_number,
+            serial_number=serial_number
+        )
+        self.cursor.execute(query)
 
     def find_project_by_completeness(self):
         """

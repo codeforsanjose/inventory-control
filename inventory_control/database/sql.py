@@ -64,6 +64,12 @@ INSERT INTO components (serial_number, sku, type)
          (SELECT id FROM component_type WHERE type = '{type}'));
 """
 
+ADD_COMPONENT_TO_PROJECT = """
+INSERT INTO project_components (project_id, component_id)
+  VALUES ((SELECT id FROM projects WHERE product_number = '{project_number}'),
+          (SELECT id FROM components WHERE serial_number = '{serial_number}'))
+"""
+
 # Project SQL
 ADD_PROJECT = "INSERT INTO projects (product_number) VALUES ('{text}')"
 
