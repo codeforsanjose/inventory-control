@@ -35,6 +35,14 @@ CREATE TABLE projects (
     FOREIGN KEY (proj_case) REFERENCES components(id) ON DELETE CASCADE,
     FOREIGN KEY (memory) REFERENCES components(id) ON DELETE CASCADE
 );
+""",
+"""
+CREATE TABLE project_components (
+    project_id INTEGER,
+    component_id INTEGER,
+    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+    FOREIGN KEY (component_id) REFERENCES components(id) ON DELETE CASCADE
+);
 """)
 
 ADD_COMPONENT_TYPE = """INSERT INTO component_type (type) VALUES ('{text}')
@@ -50,6 +58,12 @@ SELECT * FROM components INNER JOIN component_type
  ON components.type = component_type.id;
  """
 
+ADD_COMPONENT = """
+INSERT INTO components (serial_number, sku, type)
+ VALUES ('{serial_number}', '{sku}',
+         (SELECT id FROM component_type WHERE type = '{type}'));
+"""
+
 # Project SQL
 ADD_PROJECT = "INSERT INTO projects (product_number) VALUES ('{text}')"
 
@@ -60,6 +74,7 @@ DELETE FROM projects WHERE product_number='{text}'
 GET_PROJECT_BY_STATUS = """
 """
 
-DROP_SQL = ("DROP TABLE projects",
+DROP_SQL = ("DROP TABLE project_components",
+            "DROP TABLE projects",
             "DROP TABLE components",
             "DROP TABLE component_type")
