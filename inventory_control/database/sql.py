@@ -80,8 +80,9 @@ DELETE FROM projects WHERE product_number='{text}'
 
 GET_PROJECT_BY_STATUS = """
 SELECT projects.product_number, ct.type FROM projects
-  INNER JOIN component_type ct
-  LEFT OUTER JOIN project_components pc ON pc.component_id = ct.id
+  INNER JOIN components co
+  INNER JOIN project_components pc ON pc.component_id = co.id
+  INNER JOIN component_type ct ON ct.id = co.type
   WHERE pc.project_id = projects.id
 """
 #GET_PROJECT_BY_STATUS = "SELECT * FROM project_components;"

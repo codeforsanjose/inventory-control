@@ -110,7 +110,8 @@ def test_full_run():
         engine.add_component_to_project(project_number='project1',
                                         serial_number='serial11')
         result = engine.find_project_by_completeness()
-        print(result)
+        assert ('project0', 'motherboard') in result
+        assert ('project1', 'memory') not in result
     except:
         raise
     finally:
