@@ -1,12 +1,13 @@
 Purpose
 =======
-
 This project involves building a program that will assist World Computer Exchange in tracking donors and manage inventory for their computer donation projects.
+
 
 Project Team Members
 =====================
-Jeremy Ford
 Matthew Norman
+Joseph Cohen
+Scott Friedman
 
 
 Requirements:
@@ -27,10 +28,10 @@ MySQL
 
 Project Status:
 ==============
-
  * Planning
+ * Development (Database, Flask App, UI)
+
 
 Contact Info:
 =============
-
-ford.jeremy510 at gmail
+JcoEighty6 at gmail
