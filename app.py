@@ -1,79 +1,99 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
 
 from inventory_control import storage
 
 app = Flask(__name__)
 
-config = {'host': 'localhost', 
+config = {'host': 'localhost',
           'user': 'wce',
           'password': 'thispasswordisobjectivelyterrible',
           'db': 'inventory_control'}
 
-engine = storage.StorageEngine(config=config)
 
-#engine._create_tables()
+def _get_engine():
+    return storage.StorageEngine(config=config)
 
 
-#@app.route('/', methods=['GET','POST'])
-def homepage():	
+@app.before_first_request
+def create_tables():
+    _get_engine()._create_tables()
 
-	words = "This is a test of FLASK to make sure variables work"
 
-	components_by_type = ""
+@app.before_request
+def create_engine():
+    g.engine = _get_engine()
 
-	submit = False
 
-	try:
-		return render_template("index.html", words=words, comps=components_by_type, submit=submit)
-	except Exception, e:
-        	return str(e)
+@app.teardown_request
+def destroy_engine(exception):
+    engine = getattr(g, 'engine', None)
+    if engine:
+        engine.db.commit()
+        engine.db.close()
+
+
+@app.route('/', methods=['GET', 'POST'])
+def homepage():
+    words = "This is a test of FLASK to make sure variables work"
+
+    components_by_type = ""
+
+    submit = False
+
+    if request.method == 'GET':
+        try:
+            resp = render_template("index.html", words=words,
+                                   comps=components_by_type, submit=submit)
+            return resp
+        except Exception, e:
+            return str(e)
+    else:
+        return add_component_type()
+
+
 """
 def add_component_type():
 
-	#if 'submit' in request.form.values():
-	component_type = request.form['userInput']
-	
-	engine.add_component_type(type_name=component_type)
+    #if 'submit' in request.form.values():
+    component_type = request.form['userInput']
 
-	blah = request.form['userInput']
+    engine.add_component_type(type_name=component_type)
 
-	components_by_type = component_type #engine.get_components(component_type=blah)
+    blah = request.form['userInput']
 
-	submit = True
+    components_by_type = component_type #engine.get_components(component_type=blah)
 
-	return render_template("index.html", words=words, comps=components_by_type, submit=submit)
+    submit = True
+
+    return render_template("index.html", words=words, comps=components_by_type, submit=submit)
 """
-"""
-def get_components_by_type():
-	
-	if 'ADD' in request.form.values():
 
-		components_by_type = engine.get_components(component_type = request.form['userInput'])
+# def get_components_by_type():
 
-		return render_template("index.html", words=words, comps=components_by_type)
-"""
+#     if 'ADD' in request.form.values():
+
+#         components_by_type = engine.get_components(component_type = request.form['userInput'])
+
+#         return render_template("index.html", words=words, comps=components_by_type)
+
 #commented the above because it didn't work
 
 
-@app.route('/', methods=['POST'])
 def add_component_type():
 
-	if 'ADD' in request.form.values():
-		component_type = request.form['userInput']
-	
-		engine.add_component_type(type_name=component_type)
-		engine.db.commit()
-		import pdb; pdb.set_trace()
+    if 'ADD' in request.form.values():
+        component_type = request.form['userInput']
+        with g.engine.db:
+            g.engine.add_component_type(type_name=component_type)
 
 
+# def get_components_by_type():
 
-def get_components_by_type():
-	
-	if 'ADD' in request.form.values():
+#     if 'ADD' in request.form.values():
 
-		components_by_type = engine.get_components(component_type = request.form['userInput'])
+#         components_by_type = engine.get_components(component_type = request.form['userInput'])
 
-		return components_by_type
+#         return components_by_type
 
 """
 
@@ -81,15 +101,13 @@ def get_components_by_type():
 #Enable this for testing on localhost
 
 if __name__ == "__main__":
-	app.run(debug = True)
-"""
+    app.run(debug = True)
+    """
 
 
 
 if __name__ == "__main__":
-	app.run(debug = True, host='0.0.0.0', port=8080, passthrough_errors=True)
+    app.run(debug = True, host='0.0.0.0', port=8080, passthrough_errors=True)
 
 
 """
-
-
