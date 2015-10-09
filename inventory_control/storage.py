@@ -4,6 +4,7 @@ layer that sits on the inside of the inventory-control system.
 """
 
 import sqlite3
+import collections
 
 from inventory_control.database import sql
 
@@ -17,7 +18,8 @@ class StorageEngine(object):
 
     def __init__(self, config):
         self.config = config
-        self.db = sqlite3.connect('/tmp/inventory.db')
+        db_file = self.config.get('db_file', '/tmp/inventory.db')
+        self.db = sqlite3.connect(db_file)
         self.cursor = self.db.cursor()
 
     def _create_tables(self):
@@ -131,13 +133,42 @@ class StorageEngine(object):
         )
         self.cursor.execute(query)
 
-    def find_project_by_completeness(self):
+    def _find_project_by_completeness(self):
         """
         Search for projects and return them by state of completeness
         :return:
         """
         result = self.cursor.execute(sql.GET_PROJECT_BY_STATUS)
         return result.fetchall()
+
+
+    def find_project_by_completeness(self):
+        """
+        This is the actual entrypoint which will have to do
+        some numerical work.
+        :return:
+        """
+
+        # TODO: Pull this from get_component_types
+        component_types = ['motherboard', 'cpu', 'memory', 'drive',
+                           'case']
+        results = self._find_project_by_completeness()
+        projects = collections.defaultdict(list)
+        for x in results:
+            if x[1] not in component_types:
+                continue
+            projects[x[0]].append(x[1])
+
+        projects_by_ncomponents = collections.defaultdict(list)
+        for project_id, components in projects.items():
+            projects_by_ncomponents[len(components)].append(project_id)
+
+        keys = sorted(projects_by_ncomponents.keys(), reverse=True)
+        final_result = []
+        for k in keys:
+            final_result.extend(projects_by_ncomponents[k])
+
+        return final_result
 
     def _drop_tables(self):
         """

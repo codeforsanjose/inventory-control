@@ -3,13 +3,13 @@ So this is where all the SQL commands live
 """
 
 CREATE_SQL = ("""
-CREATE TABLE component_type (
+CREATE TABLE IF NOT EXISTS component_type (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     type VARCHAR(255) UNIQUE
 );
 """,
 """
-CREATE TABLE components (
+CREATE TABLE IF NOT EXISTS components (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     serial_number VARCHAR(255),
     sku VARCHAR(255),
@@ -19,25 +19,13 @@ CREATE TABLE components (
 );
 """,
 """
-CREATE TABLE projects (
+CREATE TABLE IF NOT EXISTS projects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    product_number INTEGER,
-    motherboard INTEGER,
-    power_supply INTEGER,
-    cpu INTEGER,
-    hard_drive INTEGER,
-    proj_case INTEGER,
-    memory INTEGER,
-    FOREIGN KEY (motherboard) REFERENCES components(id) ON DELETE CASCADE,
-    FOREIGN KEY (cpu) REFERENCES components(id) ON DELETE CASCADE,
-    FOREIGN KEY (power_supply) REFERENCES components(id) ON DELETE CASCADE,
-    FOREIGN KEY (hard_drive) REFERENCES components(id) ON DELETE CASCADE,
-    FOREIGN KEY (proj_case) REFERENCES components(id) ON DELETE CASCADE,
-    FOREIGN KEY (memory) REFERENCES components(id) ON DELETE CASCADE
+    product_number INTEGER
 );
 """,
 """
-CREATE TABLE project_components (
+CREATE TABLE IF NOT EXISTS project_components (
     project_id INTEGER,
     component_id INTEGER,
     FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
