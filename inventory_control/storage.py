@@ -3,7 +3,6 @@ This is the Storage engine. It's how everything should talk to the database
 layer that sits on the inside of the inventory-control system.
 """
 
-#import MySQLdb
 import sqlite3
 
 from inventory_control.database import sql
@@ -66,11 +65,10 @@ class StorageEngine(object):
         :return:
         """
         self.cursor.execute(sql.GET_COMPONENT_TYPE.format(text=type_name))
-        component_type =  self.cursor.fetchone()
+        component_type = self.cursor.fetchone()
         if component_type is None:
             return None
         return {'ID': component_type[0], 'type': component_type[1]}
-
 
     def add_component(self, sku, type_name, serial_number, status=None):
         """

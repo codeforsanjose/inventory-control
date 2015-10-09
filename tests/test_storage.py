@@ -1,6 +1,5 @@
-import pytest
-
 from inventory_control import storage
+
 
 def get_config():
     """
@@ -28,6 +27,7 @@ def test_integration_storage():
         print(ex)
     finally:
         engine._drop_tables()
+
 
 def test_integration_component_creation():
     """
