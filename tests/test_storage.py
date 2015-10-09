@@ -73,8 +73,8 @@ def test_full_run():
     """
 
     engine = storage.StorageEngine(config=get_config())
+    engine._create_tables()
     try:
-        engine._create_tables()
         engine.add_component_type(type_name='motherboard')
         engine.add_component_type(type_name='cpu')
         engine.add_component_type(type_name='memory')
